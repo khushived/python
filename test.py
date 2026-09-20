@@ -1,15 +1,20 @@
-height = float(input("Enter your height in cm: "))
-weight = float(input("Enter your weight in kg: "))
+num = int(input("Enter a number: "))
 
-BMI = weight / (height/100)**2
+sum = 0
 
-print("Your BMI is", BMI)
+temp = num
+while temp > 0:
+   digit = temp % 10
+   sum += digit ** 3
+   temp //= 10
 
-if BMI <= 18.4:
-    print("You are underweight.")
-elif BMI <= 24.9:
-    print("You are healthy.")
-elif BMI <= 39.9:
-    print("You are obese.")
+if num == sum:
+   print(num,"is an Armstrong number")
 else:
-    print("You are severely obese.")
+   print(num,"is not an Armstrong number")
+
+
+
+
+
+
