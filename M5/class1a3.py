@@ -1,26 +1,22 @@
-L = [4, 5, 1, 2, 9, 7, 10, 8]
-print("Original List :", L)
-  
-# variable to store the sum of 
-# the list
-count = 0
-  
-# Finding the sum
-for i in L:
-    count += i
-      
-# divide the total elements by
-# number of elements
-avg = count/len(L)
-  
-print("sum = ", count)
-print("average = ", avg)
+# create class
+class Parrot:
 
-# Sorting the elements of the list
-L.sort()
- 
-# printing the first element
-print("Smallest element is:", L[0])
+    # class attribute
+    species = "bird"
 
-# printing the last element
-print("Largest element is:", L[-1])
+    # instance attribute
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+# instantiate the Parrot class
+blu = Parrot("Blu", 10)
+woo = Parrot("Woo", 15)
+
+# access the class attributes
+print("Blu is a {}".format(blu.species))
+print("Woo is also a {}".format(woo.species))
+
+# access the instance attributes
+print("{} is {} years old".format( blu.name, blu.age))
+print("{} is {} years old".format( woo.name, woo.age))

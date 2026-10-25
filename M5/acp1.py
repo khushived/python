@@ -1,71 +1,37 @@
-# Create an empty list
-empty_list = []
-print(empty_list)
+# Pet Profile Builder
  
-# PART 1: Create a list of student marks
-marks = [85, 72, 90, 66, 78]
-print("Student Marks:", marks)
+# PART 1: Create a simple class
+class Pet:
+    print("Hi, I am a pet profile class!")
  
-# PART 2: Use * operator to repeat a sample marks list
-sample_marks = [10, 20, 30] * 2
-print("Repeated Sample Marks:", sample_marks)
+# PART 2: Create an object from the class
+pet_object = Pet()
  
-# PART 3: Find the length of the marks list
-print("Number of marks:", len(marks))
  
-# PART 4: Access items using indexing
-print("First mark:", marks[0])
-print("Last mark:", marks[-1])
+# PART 3: Create a class with the __init__ method
+class PetProfile:
  
-# PART 5: Access a range using slicing
-first_three_marks = marks[0:3]
-print("First three marks:", first_three_marks)
+    # class attribute
+    category = "pet"
  
-# PART 6: Reverse the marks list using slicing
-reversed_marks = marks[::-1]
-print("Reversed Marks:", reversed_marks)
+    # instance attributes
+    def __init__(self, name, animal_type, age, favourite_food):
+        self.name = name
+        self.animal_type = animal_type
+        self.age = age
+        self.favourite_food = favourite_food
  
-# PART 7: Function to find marks that start and end with same digit
-def match_marks(mark_list):
-    count = 0
-    matched_marks = []
+# PART 4: Create objects from the PetProfile class
+pet1 = PetProfile("Buddy", "Dog", 4, "Biscuits")
+pet2 = PetProfile("Milo", "Cat", 3, "Fish")
  
-    for mark in mark_list:
-        mark_text = str(mark)
+# PART 5: Access class attributes
+print("Buddy is a {}".format(pet1.category))
+print("Milo is also a {}".format(pet2.category))
  
-        if len(mark_text) > 1 and mark_text[0] == mark_text[-1]:
-            count += 1
-            matched_marks.append(mark)
+# PART 6: Access instance attributes
+print("{} is a {} and is {} years old.".format(pet1.name, pet1.animal_type, pet1.age))
+print("{} likes eating {}.".format(pet1.name, pet1.favourite_food))
  
-    print("Marks with first and last digit same:", matched_marks)
-    return count
- 
-same_digit_count = match_marks([88, 72, 99, 65, 77])
-print("Number of matching marks:", same_digit_count)
- 
-# PART 8: Iterate through the list to find sum and average
-total = 0
- 
-for mark in marks:
-    total += mark
- 
-average = total / len(marks)
- 
-print("Sum of marks:", total)
-print("Average marks:", average)
- 
-# PART 9: Sort the list to find smallest and largest marks
-marks.sort()
- 
-print("Smallest mark is:", marks[0])
-print("Largest mark is:", marks[-1])
- 
-# PART 10: Print the final student marks summary
-print("")
-print("===== STUDENT MARKS LIST ANALYZER =====")
-print("Sorted Marks:", marks)
-print("Total Marks:", total)
-print("Average Marks:", average)
-print("Lowest Mark:", marks[0])
-print("Highest Mark:", marks[-1])
-print("=======================================")
+print("{} is a {} and is {} years old.".format(pet2.name, pet2.animal_type, pet2.age))
+print("{} likes eating {}.".format(pet2.name, pet2.favourite_food))

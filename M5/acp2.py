@@ -1,58 +1,82 @@
-# Create a tuple with different data types
-habit_info = ("Reading", True, 7, 20.5)
-print(habit_info)
+# Daily Data Helper
  
-# Create a tuple of daily habit completion
-# 1 means completed, 0 means missed
-weekly_habits = (1, 0, 1, 1, 0, 1, 1)
-print(weekly_habits)
+# PART 1: Create a class with methods
+class DailyMessage:
  
-# Find the length of the tuple
-print("Total days tracked:", len(weekly_habits))
+    # Constructor to set a default value
+    def __init__(self):
+        self.message = ""
  
-# Access items using indexing
-print("Day 1 status:", weekly_habits[0])
-print("Day 4 status:", weekly_habits[3])
+    # Method to get input from the user
+    def get_message(self):
+        self.message = input("Enter today's message: ")
  
-# Access a range using slicing
-first_three_days = weekly_habits[0:3]
-print("First three days:", first_three_days)
+    # Method to print the message in uppercase
+    def print_message(self):
+        print("Message in uppercase:", self.message.upper())
  
-weekend_days = weekly_habits[5:7]
-print("Weekend days:", weekend_days)
  
-# Tuples are immutable, so we cannot directly add a new item
-# But we can create a new tuple using the + operator
-weekly_habits = weekly_habits + (1,)
-print("After adding one more day:", weekly_habits)
+# PART 2: Create an object and call methods
+daily_text = DailyMessage()
+daily_text.get_message()
+daily_text.print_message()
  
-# Count completed and missed days
-completed = weekly_habits.count(1)
-missed = weekly_habits.count(0)
  
-print("Completed days:", completed)
-print("Missed days:", missed)
+# PART 3: Create a class to show constructor and destructor
+class HelperSession:
  
-# Check each day using indexing
-done = 0
-not_done = 0
+    # Constructor runs when the object is created
+    def __init__(self):
+        print("Daily Data Helper session created")
  
-for i in range(0, len(weekly_habits)):
-    if weekly_habits[i] == 1:
-        done += 1
-    else:
-        not_done += 1
+    # Destructor runs when the object is deleted
+    def __del__(self):
+        print("Daily Data Helper session ended")
  
-if done > not_done:
-    print("Great habit progress!")
-else:
-    print("Try to be more consistent!")
  
-# Final habit tracker summary
+def create_session():
+    print("Making helper session...")
+    session = HelperSession()
+    print("Session is ready...")
+    return session
+ 
+ 
 print("")
-print("===== WEEKLY HABIT TRACKER =====")
-print("Habit Name:", habit_info[0])
-print("Weekly Record:", weekly_habits)
-print("Completed:", done)
-print("Missed:", not_done)
-print("================================")
+print("Calling create_session() function...")
+session_obj = create_session()
+print("Program is still running...")
+ 
+ 
+# PART 4: Create a class that searches for two numbers using enumerate()
+class PairFinder:
+ 
+    def find_pair(self, numbers, target):
+        lookup = {}
+ 
+        # enumerate() gives both index and value
+        for index, number in enumerate(numbers):
+            needed_number = target - number
+ 
+            if needed_number in lookup:
+                return (lookup[needed_number], index)
+ 
+            lookup[number] = index
+ 
+        return None
+ 
+ 
+# PART 5: Take input and search for a pair
+numbers = (10, 20, 30, 40, 50, 60, 70)
+ 
+target_value = int(input("Enter target sum to search: "))
+ 
+result = PairFinder().find_pair(numbers, target_value)
+ 
+if result is not None:
+    print("index1=%d, index2=%d" % result)
+else:
+    print("No matching pair found.")
+ 
+# PART 6: Delete the session object to call the destructor
+del session_obj
+print("Program End")

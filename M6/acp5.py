@@ -1,73 +1,196 @@
-# Smart Device Command Center
+# Pet Food Collection Game
  
-# PART 1: Import tools for abstraction
-from abc import ABC, abstractmethod
+# Import necessary libraries
+import pygame
+import random
  
-# PART 2: Create an abstract class
-class SmartDevice(ABC):
+# Constants for easy adjustments
+SCREEN_WIDTH, SCREEN_HEIGHT = 500, 400
+MOVEMENT_SPEED = 5
+FONT_SIZE = 60
  
-    # Common method
-    def show_device(self, name):
-        print("Device Name:", name)
+# Initialize Pygame
+pygame.init()
  
-    # Abstract method
-    @abstractmethod
-    def turn_on(self):
-        pass
+# Load and scale the background image
+background_image = pygame.transform.scale(
+    pygame.image.load("pet_bg.jpg"),
+    (SCREEN_WIDTH, SCREEN_HEIGHT)
+)
  
- 
-# PART 3: Create subclasses that override the abstract method
-class SmartLight(SmartDevice):
-    def turn_on(self):
-        print("Smart Light is now ON")
- 
- 
-class SmartFan(SmartDevice):
-    def turn_on(self):
-        print("Smart Fan is now ON")
+# Load a named system font
+font = pygame.font.SysFont(
+    "Arial",
+    FONT_SIZE
+)
  
  
-class SmartSpeaker(SmartDevice):
-    def turn_on(self):
-        print("Smart Speaker is now ON")
+# Create a sprite class
+class Sprite(pygame.sprite.Sprite):
+ 
+    def __init__(self, color, width, height):
+        # Call the parent Sprite constructor
+        super().__init__()
+ 
+        # Give the sprite an image
+        self.image = pygame.Surface(
+            [width, height]
+        )
+        self.image.fill(color)
+ 
+        # Give the sprite a rectangular position
+        self.rect = self.image.get_rect()
+ 
+    # Move the sprite while keeping it inside the screen
+    def move(self, x_change, y_change):
+        self.rect.x = max(
+            min(
+                self.rect.x + x_change,
+                SCREEN_WIDTH - self.rect.width
+            ),
+            0
+        )
+ 
+        self.rect.y = max(
+            min(
+                self.rect.y + y_change,
+                SCREEN_HEIGHT - self.rect.height
+            ),
+            0
+        )
  
  
-# PART 4: Create objects and call their methods
-light = SmartLight()
-fan = SmartFan()
-speaker = SmartSpeaker()
+# Create the game window
+screen = pygame.display.set_mode(
+    (SCREEN_WIDTH, SCREEN_HEIGHT)
+)
  
-light.show_device("Living Room Light")
-light.turn_on()
+pygame.display.set_caption(
+    "Pet Food Collection Game"
+)
  
-fan.show_device("Bedroom Fan")
-fan.turn_on()
+# Create a group for all sprites
+all_sprites = pygame.sprite.Group()
  
-speaker.show_device("Music Speaker")
-speaker.turn_on()
+# Create the pet sprite
+pet = Sprite(
+    pygame.Color("brown"),
+    40,
+    40
+)
+ 
+pet.rect.x = 30
+pet.rect.y = 180
+ 
+all_sprites.add(pet)
+ 
+# Create the pet-food sprite
+pet_food = Sprite(
+    pygame.Color("orange"),
+    30,
+    30
+)
+ 
+# Place the food at a random position
+pet_food.rect.x = random.randint(
+    100,
+    SCREEN_WIDTH - pet_food.rect.width
+)
+ 
+pet_food.rect.y = random.randint(
+    0,
+    SCREEN_HEIGHT - pet_food.rect.height
+)
+ 
+all_sprites.add(pet_food)
+ 
+# Game control variables
+running = True
+food_collected = False
+ 
+# Create a clock to control the frame rate
+clock = pygame.time.Clock()
  
  
-# PART 5: Polymorphism without inheritance
-# These classes do not inherit from SmartDevice,
-# but they share the same method name.
+# Main game loop
+while running:
  
-class SecurityCamera:
-    def check_status(self):
-        print("Security Camera is recording")
+    # Handle events
+    for event in pygame.event.get():
  
+        if event.type == pygame.QUIT:
+            running = False
  
-class DoorLock:
-    def check_status(self):
-        print("Door Lock is secure")
+    # Move the pet until the food is collected
+    if not food_collected:
  
+        keys = pygame.key.get_pressed()
  
-# PART 6: Use the shared method name
-devices = [SecurityCamera(), DoorLock()]
+        x_change = (
+            keys[pygame.K_RIGHT] -
+            keys[pygame.K_LEFT]
+        ) * MOVEMENT_SPEED
  
-print("")
-print("===== SMART DEVICE STATUS =====")
+        y_change = (
+            keys[pygame.K_DOWN] -
+            keys[pygame.K_UP]
+        ) * MOVEMENT_SPEED
  
-for device in devices:
-    device.check_status()
+        pet.move(
+            x_change,
+            y_change
+        )
  
-print("===============================")
+        # Detect collision between the pet and food
+        if pet.rect.colliderect(
+            pet_food.rect
+        ):
+            # Remove the collected food from the group
+            all_sprites.remove(
+                pet_food
+            )
+ 
+            food_collected = True
+ 
+    # Display the scaled background image
+    screen.blit(
+        background_image,
+        (0, 0)
+    )
+ 
+    # Draw the sprites
+    all_sprites.draw(screen)
+ 
+    # Display the completion message
+    if food_collected:
+ 
+        win_text = font.render(
+            "Food Collected!",
+            True,
+            pygame.Color("black")
+        )
+ 
+        # Centre the text manually
+        text_x = (
+            SCREEN_WIDTH -
+            win_text.get_width()
+        ) // 2
+ 
+        text_y = (
+            SCREEN_HEIGHT -
+            win_text.get_height()
+        ) // 2
+ 
+        screen.blit(
+            win_text,
+            (text_x, text_y)
+        )
+ 
+    # Refresh the display
+    pygame.display.flip()
+ 
+    # Limit the frame rate
+    clock.tick(60)
+ 
+# Close Pygame
+pygame.quit()

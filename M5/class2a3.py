@@ -1,13 +1,16 @@
-weather=(1,0,0,0,1,1,0)
-sunny=0
-rainy=0
-for i in range(0,7):
-	if(weather[i]==0):
-		rainy+=1
-	else:
-		sunny+=1
+# create a class
+class pair_elements:
+	
+	def twoSum(self, nums, target):
+		# create an empty dictionary
+		lookup = {}
 
-if(sunny>rainy):
-	print("Good weather")
-else:
-	print("Bad weather")
+		# Iterate through the tuple
+		for i, num in enumerate(nums):
+			if target - num in lookup:
+				return (lookup[target - num], i )
+			lookup[num] = i
+
+# take input of dum from the user
+value = int(input("Enter sum for which you want to make this search : "))
+print("index1=%d, index2=%d" % pair_elements().twoSum((10,20,30,40,50,60,70),value))

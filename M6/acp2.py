@@ -1,82 +1,82 @@
-# Daily Data Helper
+# Mini Sprite Adventure
  
-# PART 1: Create a class with methods
-class DailyMessage:
+import pygame
  
-    # Constructor to set a default value
-    def __init__(self):
-        self.message = ""
+def main():
+    pygame.init()
  
-    # Method to get input from the user
-    def get_message(self):
-        self.message = input("Enter today's message: ")
+    # PART 1: Create the game screen
+    screen_width, screen_height = 500, 400
+    screen = pygame.display.set_mode((screen_width, screen_height))
+    pygame.display.set_caption("Mini Sprite Adventure")
  
-    # Method to print the message in uppercase
-    def print_message(self):
-        print("Message in uppercase:", self.message.upper())
+    # PART 2: Set sprite position and size
+    x, y = 50, 50
+    sprite_width, sprite_height = 60, 60
+    speed = 4
+ 
+    # PART 3: Define colors
+    BLACK = (0, 0, 0)
+    WHITE = (255, 255, 255)
+    BLUE = (0, 125, 255)
+    RED = (255, 0, 0)
+    GREEN = (0, 255, 0)
+    YELLOW = (255, 255, 0)
+ 
+    current_color = WHITE
+ 
+    clock = pygame.time.Clock()
+    running = True
+ 
+    # PART 4: Game loop
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+ 
+        # PART 5: Check which arrow keys are held down
+        pressed = pygame.key.get_pressed()
+ 
+        if pressed[pygame.K_LEFT]:
+            x -= speed
+        if pressed[pygame.K_RIGHT]:
+            x += speed
+        if pressed[pygame.K_UP]:
+            y -= speed
+        if pressed[pygame.K_DOWN]:
+            y += speed
+ 
+        # PART 6: Keep the sprite inside the screen
+        x = min(max(0, x), screen_width - sprite_width)
+        y = min(max(0, y), screen_height - sprite_height)
+ 
+        # PART 7: Change color based on sprite position
+        if x == 0:
+            current_color = BLUE
+        elif x == screen_width - sprite_width:
+            current_color = YELLOW
+        elif y == 0:
+            current_color = RED
+        elif y == screen_height - sprite_height:
+            current_color = GREEN
+        else:
+            current_color = WHITE
+ 
+        # PART 8: Draw the background
+        screen.fill(BLACK)
+ 
+        # PART 9: Draw solid and outlined shapes
+        pygame.draw.circle(screen, GREEN, (420, 320), 35)
+        pygame.draw.circle(screen, BLUE, (80, 320), 35, 4)
+ 
+        # PART 10: Draw the moving sprite using pygame.Rect
+        sprite_rect = pygame.Rect(x, y, sprite_width, sprite_height)
+        pygame.draw.rect(screen, current_color, sprite_rect)
+ 
+        pygame.display.flip()
+        clock.tick(60)
+ 
+    pygame.quit()
  
  
-# PART 2: Create an object and call methods
-daily_text = DailyMessage()
-daily_text.get_message()
-daily_text.print_message()
- 
- 
-# PART 3: Create a class to show constructor and destructor
-class HelperSession:
- 
-    # Constructor runs when the object is created
-    def __init__(self):
-        print("Daily Data Helper session created")
- 
-    # Destructor runs when the object is deleted
-    def __del__(self):
-        print("Daily Data Helper session ended")
- 
- 
-def create_session():
-    print("Making helper session...")
-    session = HelperSession()
-    print("Session is ready...")
-    return session
- 
- 
-print("")
-print("Calling create_session() function...")
-session_obj = create_session()
-print("Program is still running...")
- 
- 
-# PART 4: Create a class that searches for two numbers using enumerate()
-class PairFinder:
- 
-    def find_pair(self, numbers, target):
-        lookup = {}
- 
-        # enumerate() gives both index and value
-        for index, number in enumerate(numbers):
-            needed_number = target - number
- 
-            if needed_number in lookup:
-                return (lookup[needed_number], index)
- 
-            lookup[number] = index
- 
-        return None
- 
- 
-# PART 5: Take input and search for a pair
-numbers = (10, 20, 30, 40, 50, 60, 70)
- 
-target_value = int(input("Enter target sum to search: "))
- 
-result = PairFinder().find_pair(numbers, target_value)
- 
-if result is not None:
-    print("index1=%d, index2=%d" % result)
-else:
-    print("No matching pair found.")
- 
-# PART 6: Delete the session object to call the destructor
-del session_obj
-print("Program End")
+if __name__ == "__main__":
